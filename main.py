@@ -42,5 +42,4 @@ def print_results(results: dict, count: int = 10) -> None:
 if __name__ == "__main__":
     data: str = load_file(standalone_mode=False)
     results: dict = word_count(data)
-
-    print_results(results)
+    print_results(results, count=5)
