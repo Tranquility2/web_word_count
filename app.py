@@ -1,7 +1,9 @@
 import click
+import io
 
 from rich.console import Console
 from rich.table import Table
+from rich import print as rprint
 
 
 @click.command()
@@ -26,9 +28,9 @@ def word_count(data: str) -> dict:
     return word_count
 
 
-def print_results(results: dict, count: int = 10) -> None:
+def create_table(results: dict, count: int = 10) -> Table:
     """Prints the top 10 results of the word count in a table using rich"""
-    console = Console()
+
     table = Table(title="Top 10 Words")
     table.add_column("Word", style="bold cyan", no_wrap=True)
     table.add_column("Count", style="bold magenta")
@@ -36,10 +38,26 @@ def print_results(results: dict, count: int = 10) -> None:
     for word, count in sorted(results.items(), key=lambda x: x[1], reverse=True)[:count]:
         table.add_row(word, str(count))
 
+    # console = Console(file=io.StringIO(), width=120)
+    # console.print(table)
+    # result = console.file.getvalue()
+    #
+    #     return result
+
+    return table
+
+
+def table_to_html(table: Table) -> str:
+    """Converts a rich table to an HTML table"""
+    console = Console(record=True)
     console.print(table)
+    console.end_capture()
+
+    return console.export_html()
 
 
 if __name__ == "__main__":
     data: str = load_file(standalone_mode=False)
     results: dict = word_count(data)
-    print_results(results, count=5)
+    table = create_table(results, count=5)
+    rprint(table)
