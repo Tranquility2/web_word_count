@@ -38,12 +38,6 @@ def create_table(results: dict, count: int = 10) -> Table:
     for word, count in sorted(results.items(), key=lambda x: x[1], reverse=True)[:count]:
         table.add_row(word, str(count))
 
-    # console = Console(file=io.StringIO(), width=120)
-    # console.print(table)
-    # result = console.file.getvalue()
-    #
-    #     return result
-
     return table
 
 
