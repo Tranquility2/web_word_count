@@ -1,5 +1,4 @@
 import click
-import io
 
 from rich.console import Console
 from rich.table import Table
@@ -8,11 +7,14 @@ from rich import print as rprint
 
 @click.command()
 @click.option("--file", "-f", type=click.Path(exists=True), required=True, help="File to read")
-def load_file(file: str) -> str:
+@click.option("--count", "-c", type=int, default=5, help="Number of top words to display")
+def cli(file: str, count: int) -> str:
     """Reads a file and returns its content"""
     with open(file, "r") as f:
         data = f.read()
-    return data
+        results = word_count(data)
+        table = create_table(results, count)
+        rprint(table)
 
 
 def word_count(data: str) -> dict:
@@ -51,7 +53,4 @@ def table_to_html(table: Table) -> str:
 
 
 if __name__ == "__main__":
-    data: str = load_file(standalone_mode=False)
-    results: dict = word_count(data)
-    table = create_table(results, count=5)
-    rprint(table)
+    cli()
