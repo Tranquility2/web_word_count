@@ -32,7 +32,7 @@ def create_table(results: dict, count: int = 10) -> Table:
     """Prints the top results of the word count in a table using rich"""
 
     table = Table(title=f"Top {count} Words")
-    table.add_column("Word", style="bold cyan", no_wrap=True)
+    table.add_column("Word", style="bold cyan")
     table.add_column("Count", style="bold magenta")
 
     for word, count in sorted(results.items(), key=lambda x: x[1], reverse=True)[:count]:
@@ -53,7 +53,7 @@ def table_to_html(table: Table) -> str:
     console.print(table)
     console.end_capture()
 
-    return console.export_html()
+    return console.export_html(inline_styles=True)
 
 
 if __name__ == "__main__":
