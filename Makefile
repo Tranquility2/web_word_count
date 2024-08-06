@@ -2,7 +2,7 @@ run:
 	python app.py --file sample/wordcount.txt
 
 serve:
-	python3 -m http.server 9000
+	python srv.py
 
 pip-clean:
 	pip freeze | xargs pip uninstall -y
