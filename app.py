@@ -29,9 +29,9 @@ def word_count(data: str) -> dict:
 
 
 def create_table(results: dict, count: int = 10) -> Table:
-    """Prints the top 10 results of the word count in a table using rich"""
+    """Prints the top results of the word count in a table using rich"""
 
-    table = Table(title="Top 10 Words")
+    table = Table(title=f"Top {count} Words")
     table.add_column("Word", style="bold cyan", no_wrap=True)
     table.add_column("Count", style="bold magenta")
 
