@@ -1,6 +1,8 @@
 from pyscript import document, fetch, window
 from js import console
 
+import asyncio
+
 from app import word_count, create_table, table_to_html
 
 async def process_data(data: str):
@@ -13,7 +15,7 @@ async def process_data(data: str):
 
 async def on_change(event):
     # For each file the user has selected to upload...
-    for file in input.files:
+    for file in event.target.files:
         # console.log(f"Processing {file.name}...")
         # console.log(f"File size: {file.size} bytes")
         # console.log(f"File type: {file.type}")
@@ -22,8 +24,10 @@ async def on_change(event):
         content = await file.text()
         await process_data(content)
 
+async def main():
+    # Get the input element.
+    input = document.querySelector("input[type=file]")
+    # When the user selects a file to upload, call the on_change function.
+    input.onchange = on_change
 
-# Grab a reference to the file upload input element and add
-# the on_change handler (defined above) to process the files.
-input = document.querySelector("input[type=file]")
-input.onchange = on_change
+asyncio.get_event_loop().run_until_complete(main())
