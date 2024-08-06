@@ -1,4 +1,5 @@
 import click
+import asyncio
 
 from rich.console import Console
 from rich.table import Table
@@ -12,12 +13,18 @@ def cli(file: str, count: int) -> str:
     """Reads a file and returns its content"""
     with open(file, "r") as f:
         data = f.read()
-        results = word_count(data)
-        table = create_table(results, count)
-        rprint(table)
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(process_data(data))
 
 
-def word_count(data: str) -> dict:
+async def process_data(data: str):
+    """Processes the data and returns the word count"""
+    results =  await word_count(data)
+    table = await create_table(results)
+    rprint(table)
+
+
+async def word_count(data: str) -> dict:
     """Word counting object, counts total words and top 10 occurring words"""
     words = data.split()
     word_count = {}
@@ -30,7 +37,7 @@ def word_count(data: str) -> dict:
     return word_count
 
 
-def create_table(results: dict, count: int = 10) -> Table:
+async def create_table(results: dict, count: int = 10) -> Table:
     """Prints the top results of the word count in a table using rich"""
 
     table = Table(title=f"Top {count} Words")
@@ -43,7 +50,7 @@ def create_table(results: dict, count: int = 10) -> Table:
     return table
 
 
-def table_to_html(table: Table) -> str:
+async def table_to_html(table: Table) -> str:
     """Converts a rich table to an HTML table"""
     console = Console(record=True)
     console.print(table)
