@@ -1,0 +1,6 @@
+name = "App"
+description = "A simple application to use file upload."
+packages = ["rich", "click"]
+
+[files]
+"./app.py" = ""

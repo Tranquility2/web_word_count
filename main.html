@@ -13,16 +13,9 @@
 </head>
 
 <body>
-  <!-- Add third-party dependencies here -->
-  <py-config>
-    packages = ["rich", "click"]
-    [[fetch]]
-    files = ["app.py"]
-  </py-config>
-
   <input type="file">
 
-  <script type="py" src="./web.py"></script>
+  <script type="py" src="./web.py" config="./pyscript.toml"></script>
 
   <div id="output"></div>
 </body>
