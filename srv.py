@@ -4,6 +4,8 @@ from http import HTTPStatus
 PORT = 9000
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    """ Simple HTTP request handler with CORS headers """
+    # Note: The CORS headers are necessary for pyscript to work.
 
     def do_GET(self):
         if self.path == '/':
@@ -23,5 +25,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b'404 - Not Found')
 
-httpd = HTTPServer(('', PORT), SimpleHTTPRequestHandler)
-httpd.serve_forever()
+
+if __name__ == '__main__':
+    print(f"http://localhost:{PORT}/")
+    httpd = HTTPServer(('', PORT), SimpleHTTPRequestHandler)
+    httpd.serve_forever()
